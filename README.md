@@ -234,7 +234,16 @@ Run with command-line configuration:
 ```bash
 java -jar simulator-core-shadow/lib/simulator-core.jar ws://${ocpp_endpoint_url} --configuration "{'stations':[{'id':'EVB-P17390866','evse':{'count':1,'connectors':1}}]}"
 ```
+## Secure Web-Sockets
 
+`./gradlew run -Parguments="wss://{ocpp_endpoint_url} --configurationFile ./configuration.yml"`
+
+In the simulator configuration specify the following settings:
+```YAML
+keyStoreFile: path-to-file
+keyStorePassword: your-keyStore-password
+keyManagerPassword: your-keyManager-password
+```
 ## Use as console tool
 Console tool supports user interactions with running stations: plug cable, unplug cable, authorize token, etc.
 It launches as part of the station simulator project, and is available for user input.

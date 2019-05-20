@@ -6,9 +6,16 @@ public class StationConstants {
 
     public static final String HOST = "localhost";
     public static final int PORT = 8085;
+    public static final int SECURE_PORT = 8443;
     public static final String PATH = "/ocpp";
     public static final String OCPP_SERVER_URL = "ws://" + HOST + ":" + PORT + PATH;
     public static final String BASIC_AUTH_PASSWORD = "0123456789abcdefABCDEF";
+    public static final String SECURE_OCPP_SERVER_URL = "wss://" + HOST + ":" + SECURE_PORT + PATH;
+
+    public static final String KEYSTORE_FILE = "keystore.jks";
+    public static final String KEYSTORE_PASSWORD = "password";
+    public static final String KEYMANAGER_PASSWORD = "password";
+
 
     public static final String STATION_ID = "EVB-P18090564";
     public static final String ADDITIONAL_STATION_ID = "EVB-P18090564";

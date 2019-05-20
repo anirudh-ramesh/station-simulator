@@ -1,3 +1,6 @@
+keyStoreFile: /Users/aleksandrnesterov/IdeaProjects/keystore.jks
+keyStorePassword: password
+keyManagerPassword: password
 stations:
   - id: EVB-P17390866
     basicAuthPassword: FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

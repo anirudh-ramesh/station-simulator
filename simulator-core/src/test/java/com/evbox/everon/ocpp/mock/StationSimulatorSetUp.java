@@ -31,6 +31,7 @@ public class StationSimulatorSetUp  {
     protected OcppMockServer ocppMockServer = OcppMockServer.builder()
             .hostname(StationConstants.HOST)
             .port(StationConstants.PORT)
+            .securePort(SECURE_PORT)
             .path(StationConstants.PATH)
             .ocppServerClient(ocppServerClient)
             .username(STATION_ID)

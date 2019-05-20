@@ -9,6 +9,10 @@ public class SimulatorConfiguration {
 
     private static final int DEFAULT_HEARTBEAT_INTERVAL = 60;
 
+    private String keyStoreFile;
+    private String keyStorePassword;
+    private String keyManagerPassword;
+
     private List<StationConfiguration> stations;
 
     @Data

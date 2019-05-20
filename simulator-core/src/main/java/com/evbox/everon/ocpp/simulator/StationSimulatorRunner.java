@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.evbox.everon.ocpp.simulator.websocket.SecureOkHttpClient.createSecureOkHttpClient;
+
 /**
  * Runner connects and runs stations.
  *
@@ -40,7 +42,10 @@ public class StationSimulatorRunner {
 
         simulatorConfiguration.getStations().forEach(stationConfiguration -> {
 
-            Station station = new Station(stationConfiguration);
+            Station station = secureWebSocket()
+                    ? new Station(stationConfiguration, createSecureOkHttpClient(simulatorConfiguration.getKeyStoreFile(),
+                    simulatorConfiguration.getKeyStorePassword(), simulatorConfiguration.getKeyManagerPassword()))
+                    : new Station(stationConfiguration);
 
             station.connectToServer(serverWebSocketUrl);
 
@@ -57,4 +62,9 @@ public class StationSimulatorRunner {
     public List<Station> getStations() {
         return new ImmutableList.Builder<Station>().addAll(stations.values()).build();
     }
+
+    private boolean secureWebSocket() {
+        return serverWebSocketUrl.startsWith("wss");
+    }
+
 }

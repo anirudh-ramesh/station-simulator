@@ -14,6 +14,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.websockets.WebSocketProtocolHandshakeHandler;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.net.ssl.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
+import static com.evbox.everon.ocpp.mock.constants.StationConstants.*;
 import static com.evbox.everon.ocpp.mock.expect.ExpectedCount.once;
 import static io.undertow.Handlers.path;
 import static io.undertow.Handlers.websocket;
@@ -43,6 +45,7 @@ public class OcppMockServer {
     private final OcppServerClient ocppServerClient;
     private final String hostname;
     private final int port;
+    private final int securePort;
     private final String path;
     private final OcppIdentityManager identityManager;
 
@@ -54,6 +57,7 @@ public class OcppMockServer {
         this.ocppServerClient = builder.ocppServerClient;
         this.hostname = builder.hostname;
         this.port = builder.port;
+        this.securePort = builder.securePort;
         this.path = builder.path;
         this.identityManager = new OcppIdentityManager(builder.username, builder.password);
     }
@@ -64,7 +68,10 @@ public class OcppMockServer {
     public void start() {
         String targetUrl = "ws://" + hostname + ":" + port + path + "/";
 
+        SSLContext sslContext = SSLContextUtils.createSSLContext(KEYSTORE_FILE, KEYSTORE_PASSWORD, KEYMANAGER_PASSWORD);
+
         server = Undertow.builder()
+                .addHttpsListener(securePort, hostname, sslContext)
                 .addHttpListener(port, hostname)
                 .setHandler(
                         path().addPrefixPath(path, authentication(websocket((exchange, channel) -> {
@@ -195,6 +202,7 @@ public class OcppMockServer {
 
         private String hostname;
         private int port;
+        private int securePort;
         private String path;
         private OcppServerClient ocppServerClient;
         private String username;
@@ -207,6 +215,11 @@ public class OcppMockServer {
 
         public OcppServerMockBuilder port(int port) {
             this.port = port;
+            return this;
+        }
+
+        public OcppServerMockBuilder securePort(int securePort) {
+            this.securePort = securePort;
             return this;
         }
 
